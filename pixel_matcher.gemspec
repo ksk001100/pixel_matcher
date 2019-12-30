@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["ksk001100"]
   spec.email         = ["hm.pudding0715@gmail.com"]
 
-  spec.summary       = %q{pixel matcher}
-  spec.description   = %q{pixel matcher}
+  spec.summary       = %q{Library to compare images and generate difference image files}
+  spec.description   = %q{Library to compare images and generate difference image files}
   spec.homepage      = "https://github.com/ksk001100/pixel_matcher"
   spec.license       = "MIT"
 
