@@ -1,35 +1,42 @@
 require 'rmagick'
 
 module PixelMatcher
-  class DiffImage
+  class DiffImage < Magick::Image
     def initialize(img1, img2)
+      self.class.image_size_validate(img1, img2)
       @img1 = img1
       @img2 = img2
-      @gray_scale = @img1.clone.quantize(256, Magick::GRAYColorspace)
-      @diff = Magick::Image.new(@img1.columns, @img1.rows)
+      super(@img1.columns, @img1.rows) { self.background_color = 'none' }
+      store_diff
     end
 
     def self.from_path(path1, path2)
       img1 = Magick::Image.read(path1).first
       img2 = Magick::Image.read(path2).first
-      self.new(img1, img2)
+      new(img1, img2)
     end
 
     def self.from_blob(bin1, bin2)
       img1 = Magick::Image.from_blob(bin1).first
       img2 = Magick::Image.from_blob(bin2).first
-      self.new(img1, img2)
+      new(img1, img2)
+    end
+
+    def self.image_size_validate(img1, img2)
+      return if [img1.columns, img1.rows] == [img2.columns, img2.rows]
+
+      raise PixelMatcher::SizeMismatchError, 'Image size mismatch'
     end
 
     def export_diff(output_path)
-      store_diff
-      @diff.write(output_path)
+      write(output_path)
       self
     end
 
     def export_gray_scale(output_path)
-      store_gray_scale_diff
-      @gray_scale.write(output_path)
+      gray_scale = @img1.clone.quantize(256, Magick::GRAYColorspace)
+      gray_scale.composite!(self, Magick::CenterGravity, 0, 0, Magick::OverCompositeOp);
+      gray_scale.write(output_path)
       self
     end
 
@@ -38,15 +45,7 @@ module PixelMatcher
     def store_diff
       @img1.columns.times do |i|
         @img1.rows.times do |j|
-          @diff.store_pixels(i, j, 1, 1, [@img1.pixel_color(i, j)]) unless eq_pixel?(i, j)
-        end
-      end
-    end
-
-    def store_gray_scale_diff
-      @img1.columns.times do |i|
-        @img1.rows.times do |j|
-          @gray_scale.store_pixels(i, j, 1, 1, [@img1.pixel_color(i, j)]) unless eq_pixel?(i, j)
+          store_pixels(i, j, 1, 1, [@img1.pixel_color(i, j)]) unless eq_pixel?(i, j)
         end
       end
     end
