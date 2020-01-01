@@ -23,7 +23,19 @@ Or install it yourself as:
 ```ruby
 require 'pixel_matcher'
 
-diff = PixelMatcher::DiffImage('img1.png', 'img2.png')
+# from rmagick image
+require 'rmagick'
+diff = PixelMatcher::DiffImage.new(Magick::Image.read('img1.png').first, Magick::Image.read('img2.png').first)
+diff.export_diff('diff.png')
+diff.export_gray_scale('gray_scale.png')
+
+# from file path
+diff = PixelMatcher::DiffImage.from_path('img1.png', 'img2.png')
+diff.export_diff('diff.png')
+diff.export_gray_scale('gray_scale.png')
+
+# from blob
+diff = PixelMatcher::DiffImage.from_blob(File.read('img1.png'), File.read('img2.png'))
 diff.export_diff('diff.png')
 diff.export_gray_scale('gray_scale.png')
 ```

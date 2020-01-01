@@ -8,9 +8,15 @@ RSpec.describe PixelMatcher do
     let(:file2_path) { 'spec/fixtures/images/lena2.png' }
     let(:output_path) { './output.png' }
 
-    subject { PixelMatcher::DiffImage.new(file1_path, file2_path) }
+    subject { PixelMatcher::DiffImage.from_path(file1_path, file2_path) }
 
-    it '#new' do
+    it '#from_path' do
+      subject { PixelMatcher::DiffImage.from_path(file1_path, file2_path) }
+      expect(subject).to eq subject
+    end
+
+    it '#from_blob' do
+      subject { PixelMatcher::DiffImage.from_blob(File.read(file_path1), File.read(file_path2)) }
       expect(subject).to eq subject
     end
 
