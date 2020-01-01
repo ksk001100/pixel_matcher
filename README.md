@@ -21,7 +21,7 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-require 'pixel_matcher
+require 'pixel_matcher'
 
 diff = PixelMatcher::DiffImage('img1.png', 'img2.png')
 diff.export_diff('diff.png')
