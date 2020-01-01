@@ -14,8 +14,13 @@ RSpec.describe PixelMatcher do
       expect(subject).to eq subject
     end
 
-    it '#export' do
-      expect(subject.export(output_path)).to eq subject
+    it '#export_diff' do
+      expect(subject.export_diff(output_path)).to eq subject
+      FileUtils.rm_rf(output_path)
+    end
+
+    it '#export_gray_scale' do
+      expect(subject.export_gray_scale(output_path)).to eq subject
       FileUtils.rm_rf(output_path)
     end
   end

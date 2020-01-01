@@ -1,8 +1,6 @@
 # PixelMatcher
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pixel_matcher`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Library to compare images and generate difference image files
 
 ## Installation
 
@@ -22,7 +20,14 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'pixel_matcher
+
+diff = PixelMatcher::DiffImage('img1.png', 'img2.png')
+diff.export_diff('diff.png')
+diff.export_gray_scale('gray_scale.png')
+```
+
 
 ## Development
 
@@ -32,7 +37,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pixel_matcher. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ksk001100/pixel_matcher. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,4 +45,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the PixelMatcher project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/pixel_matcher/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the PixelMatcher project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/ksk001100/pixel_matcher/blob/master/CODE_OF_CONDUCT.md).
