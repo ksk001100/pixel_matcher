@@ -2,6 +2,8 @@
 
 Library to compare images and generate difference image files
 
+![](images/screen_shot.jpeg)
+
 ## Installation
 
 Add this line to your application's Gemfile:
