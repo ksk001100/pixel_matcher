@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.version       = PixelMatcher::VERSION
   spec.authors       = ["ksk001100"]
   spec.email         = ["hm.pudding0715@gmail.com"]
+  spec.executables   << 'pixel_matcher'
 
   spec.summary       = %q{Library to compare images and generate difference image files}
   spec.description   = %q{Library to compare images and generate difference image files}

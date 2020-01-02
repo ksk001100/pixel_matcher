@@ -45,13 +45,15 @@ module PixelMatcher
     def store_diff
       @img1.columns.times do |i|
         @img1.rows.times do |j|
-          store_pixels(i, j, 1, 1, [@img1.pixel_color(i, j)]) unless eq_pixel?(i, j)
+          next if eq_pixel?(i, j)
+
+          store_pixels(i, j, 1, 1, [@img1.pixel_color(i, j)])
         end
       end
     end
 
-    def eq_pixel?(i, j)
-      @img1.pixel_color(i, j) == @img2.pixel_color(i, j)
+    def eq_pixel?(column, row)
+      @img1.pixel_color(column, row) == @img2.pixel_color(column, row)
     end
   end
 end
