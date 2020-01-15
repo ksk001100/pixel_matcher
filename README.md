@@ -1,8 +1,15 @@
 # PixelMatcher
+![](https://ruby-gem-downloads-badge.herokuapp.com/pixel_matcher)
+[![Gem Version](https://badge.fury.io/rb/pixel_matcher.svg)](https://badge.fury.io/rb/pixel_matcher)
+[![Build Status](https://travis-ci.org/ksk001100/pixel_matcher.svg?branch=master)](https://travis-ci.org/ksk001100/pixel_matcher)
+![](https://img.shields.io/github/issues/ksk001100/pixel_matcher.svg)
+![](https://img.shields.io/github/forks/ksk001100/pixel_matcher.svg)
+![](https://img.shields.io/github/license/ksk001100/pixel_matcher.svg)
+
 
 Library to compare images and generate difference image files
 
-![](images/screen_shot.jpeg)
+![](images/generate.png)
 
 ## Installation
 
@@ -28,18 +35,21 @@ require 'pixel_matcher'
 # from rmagick image
 require 'rmagick'
 diff = PixelMatcher::DiffImage.new(Magick::Image.read('img1.png').first, Magick::Image.read('img2.png').first)
-diff.export_diff('diff.png')
-diff.export_gray_scale('gray_scale.png')
+diff.export('diff.png') # or mode: :only
+diff.export('gray_scale.png', mode: :gray_scale)
+diff.export('compare.png', mode: :compare)
 
 # from file path
 diff = PixelMatcher::DiffImage.from_path('img1.png', 'img2.png')
-diff.export_diff('diff.png')
-diff.export_gray_scale('gray_scale.png')
+diff.export('diff.png') # or mode: :only
+diff.export('gray_scale.png', mode: :gray_scale)
+diff.export('compare.png', mode: :compare)
 
 # from blob
 diff = PixelMatcher::DiffImage.from_blob(File.read('img1.png'), File.read('img2.png'))
-diff.export_diff('diff.png')
-diff.export_gray_scale('gray_scale.png')
+diff.export('diff.png') # or mode: :only
+diff.export('gray_scale.png', mode: :gray_scale)
+diff.export('compare.png', mode: :compare)
 ```
 
 
