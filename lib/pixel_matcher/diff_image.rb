@@ -3,7 +3,8 @@ require 'rmagick'
 module PixelMatcher
   class DiffImage < Magick::Image
     def initialize(original, changed)
-      self.class.image_size_validate(original, changed)
+      self.class.image_size_validate!(original, changed)
+
       @original = original
       @changed = changed
       super(@original.columns, @original.rows) { self.background_color = 'none' }
@@ -22,31 +23,13 @@ module PixelMatcher
       new(original, changed)
     end
 
-    def self.image_size_validate(original, changed)
-      return if [original.columns, original.rows] == [changed.columns, changed.rows]
-
-      raise PixelMatcher::SizeMismatchError, 'Image size mismatch'
-    end
-
-    def export_diff(output_path)
-      write(output_path)
-      self
-    end
-
-    def export_gray_scale(output_path)
-      gray_scale = @original.clone.quantize(256, Magick::GRAYColorspace)
-      gray_scale.composite!(self, Magick::CenterGravity, 0, 0, Magick::OverCompositeOp)
-      gray_scale.write(output_path)
-      self
-    end
-
-    def export_edge(output_path, threshold = 1.0)
-      edge_image = threshold(Magick::QuantumRange * threshold).negate
-                                                              .edge(0.0)
-                                                              .matte_replace(0, 0)
-      @original.composite(edge_image, Magick::CenterGravity, 0, 0, Magick::OverCompositeOp)
-               .write(output_path)
-      self
+    def export(output_path, mode: :only)
+      case mode
+      when :only then export_diff(output_path)
+      when :gray_scale then export_diff(output_path)
+      when :compare then export_compare(output_path)
+      else self.class.mode_validate!
+      end
     end
 
     private
@@ -63,6 +46,37 @@ module PixelMatcher
 
     def eq_pixel?(column, row)
       @original.pixel_color(column, row) == @changed.pixel_color(column, row)
+    end
+
+    def export_diff(output_path)
+      write(output_path)
+      self
+    end
+
+    def export_gray_scale(output_path)
+      gray_scale = @original.clone.quantize(256, Magick::GRAYColorspace)
+      gray_scale.composite!(self, Magick::CenterGravity, 0, 0, Magick::OverCompositeOp)
+      gray_scale.write(output_path)
+      self
+    end
+
+    def export_compare(output_path)
+      @changed.compare_channel(@original, Magick::MeanSquaredErrorMetric)
+              .first
+              .write(output_path)
+      self
+    end
+
+    class << self
+      def image_size_validate!(original, changed)
+        return if [original.columns, original.rows] == [changed.columns, changed.rows]
+
+        raise PixelMatcher::SizeMismatchError
+      end
+
+      def mode_validate!
+        raise PixelMatcher::ModeMismatchError
+      end
     end
   end
 end
