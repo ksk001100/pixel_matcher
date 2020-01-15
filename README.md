@@ -9,7 +9,7 @@
 
 Library to compare images and generate difference image files
 
-![](images/screen_shot.jpeg)
+![](images/generate.png)
 
 ## Installation
 

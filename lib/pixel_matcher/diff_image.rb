@@ -26,7 +26,7 @@ module PixelMatcher
     def export(output_path, mode: :only)
       case mode
       when :only then export_diff(output_path)
-      when :gray_scale then export_diff(output_path)
+      when :gray_scale then export_gray_scale(output_path)
       when :compare then export_compare(output_path)
       else self.class.mode_validate!
       end
