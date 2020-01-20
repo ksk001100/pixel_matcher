@@ -29,6 +29,7 @@ Or install it yourself as:
 
 ## Usage
 
+### Library
 ```ruby
 require 'pixel_matcher'
 
@@ -50,6 +51,11 @@ diff = PixelMatcher::DiffImage.from_blob(File.read('img1.png'), File.read('img2.
 diff.export('diff.png') # or mode: :only
 diff.export('gray_scale.png', mode: :gray_scale)
 diff.export('compare.png', mode: :compare)
+```
+
+### CLI tool
+```bash
+$ pixel_matcher img1.png img2.png diff.png
 ```
 
 

@@ -9,6 +9,6 @@ path2 = ARGV[1]
 output_path = ARGV[2]
 
 diff = PixelMatcher::DiffImage.from_path(path1, path2)
-diff.export_diff(output_path)
+diff.export(output_path)
 
 puts "Generated diff image : #{output_path}"
